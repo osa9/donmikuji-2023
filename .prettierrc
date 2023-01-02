@@ -1,0 +1,9 @@
+{
+  "semi": false,
+  "arrowParens": "always",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "importOrder": ["^react$", "<THIRD_PARTY_MODULES>" ,"^@mui/(.*)$", "@/components/(.*)$", "^@/lib/(.*)$", "^@/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+}
