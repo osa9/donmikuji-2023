@@ -1,4 +1,4 @@
-# Donmikuji 2023
+# Donmikuji 2024
 おみくじです
 
 This software is partially forked from  

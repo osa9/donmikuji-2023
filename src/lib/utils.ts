@@ -1,3 +1,3 @@
 export const getMediaUrl = (path: string) => {
-  return process.env.NEXT_PUBLIC_MEDIA_BASE_URL + path
-}
+  return import.meta.env.VITE_MEDIA_BASE_URL + path;
+};
