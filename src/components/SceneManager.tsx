@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useStore } from "../stores";
+import { useStore } from "../stores/app";
 import { useGachaStore } from "../stores/pu";
 import GachaScene from "./scenes/GachaScene";
 import HistoryScene from "./scenes/HistoryScene";
@@ -15,11 +15,6 @@ export const SceneManager: React.FC = () => {
     startGacha(picks);
     setScene("gacha");
   };
-
-  React.useEffect(() => {
-    // デバッグ用
-    startGacha(12, true);
-  }, []);
 
   switch (scene) {
     case "entrance":

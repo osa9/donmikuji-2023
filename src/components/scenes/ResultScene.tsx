@@ -1,19 +1,20 @@
-import React from 'react'
+import React from "react";
 
-import { getMediaUrl } from '../../lib/utils'
-import { Character, useGachaStore } from '../../stores/pu'
-import { SkipButton } from '../SkipButton'
-import TailwindIndicator from '../TailwindIndicator'
+import { getMediaUrl } from "../../lib/utils";
+import { Character, useGachaStore } from "../../stores/pu";
+import { AnyShare } from "../AnyShare";
+import { SkipButton } from "../SkipButton";
+import TailwindIndicator from "../TailwindIndicator";
 
 export interface ResultSceneProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 export interface SingleResultProps {
-  character: Character
-  onClick?: () => void
-  onSkip?: () => void
-  label?: string
+  character: Character;
+  onClick?: () => void;
+  onSkip?: () => void;
+  label?: string;
 }
 
 export const SingleResult: React.FC<SingleResultProps> = ({
@@ -29,14 +30,14 @@ export const SingleResult: React.FC<SingleResultProps> = ({
         onClick={onClick}
       >
         <div className="font-bold text-3xl">
-          あなたの{label ?? '今年'}の運勢は…
+          あなたの{label ?? "今年"}の運勢は…
         </div>
         <div
           style={{
-            width: '800px',
-            height: '800px',
-            maxWidth: '90vw',
-            maxHeight: '90vh',
+            width: "800px",
+            height: "800px",
+            maxWidth: "90vw",
+            maxHeight: "90vh",
           }}
           className="mt-4 text-center"
         >
@@ -53,22 +54,24 @@ export const SingleResult: React.FC<SingleResultProps> = ({
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
 export const MultiResult: React.FC<{
-  characters: Character[]
-  setCompleted: () => void
-}> = ({ characters, setCompleted }) => {
-  const [selected, setSelected] = React.useState(0)
+  characters: Character[];
+  completed: boolean;
+  setCompleted: () => void;
+  selected: number;
+  setSelected: (selected: number) => void;
+}> = ({ characters, setCompleted, selected, setSelected, completed }) => {
   const set = (index: number) => {
-    setSelected(index)
+    setSelected(index);
     if (index === characters.length) {
-      setCompleted()
+      setCompleted();
     }
-  }
+  };
 
-  if (selected < characters.length) {
+  if (selected < characters.length || !completed) {
     return (
       <SingleResult
         character={characters[selected]}
@@ -76,7 +79,7 @@ export const MultiResult: React.FC<{
         onClick={() => set(selected + 1)}
         onSkip={() => set(characters.length)}
       />
-    )
+    );
   }
 
   return (
@@ -88,8 +91,8 @@ export const MultiResult: React.FC<{
             <div
               key={idx}
               style={{
-                width: '100px',
-                height: '350px',
+                width: "100px",
+                height: "350px",
               }}
               className="relative flex flex-col items-center max-h-44 sm:max-h-60 xl:max-h-full overflow-hidden"
             >
@@ -107,7 +110,7 @@ export const MultiResult: React.FC<{
                 className="absolute bottom-0 sm:bottom-2 xl:bottom-3 font-extrabold text-cyan-50 text-2xl sm:text-4xl"
                 style={
                   {
-                    '-webkit-text-stroke': '1px #000000',
+                    "-webkit-text-stroke": "1px #000000",
                   } as any
                 }
               >
@@ -118,83 +121,75 @@ export const MultiResult: React.FC<{
         </div>
       </div>
     </div>
-  )
+  );
+};
+
+export interface ResultSceneComponentProps extends ResultSceneProps {
+  characters: Character[];
+  resultString: string;
+  completed: boolean;
+  setCompleted: (completed: boolean) => void;
+  selected: number;
+  setSelected: (selected: number) => void;
+  onClose: () => void;
 }
 
-export const ResultScene: React.FC<ResultSceneProps> = ({ onClose }) => {
-  const { lastResult, resultString } = useGachaStore()
-  const [completed, setCompleted] = React.useState(lastResult.length === 1)
+export const ResultSceneComponent: React.FC<ResultSceneComponentProps> = ({
+  characters,
+  resultString,
+  completed,
+  setCompleted,
+  selected,
+  setSelected,
+  onClose,
+}) => {
   return (
     <div className="w-full h-screen text-white flex flex-col items-center">
-      {lastResult.length > 1 ? (
+      {characters.length > 1 ? (
         <MultiResult
-          characters={lastResult}
+          characters={characters}
+          completed={completed}
           setCompleted={() => setCompleted(true)}
+          selected={selected}
+          setSelected={setSelected}
         />
       ) : (
-        <SingleResult character={lastResult[0]} />
+        <SingleResult character={characters[0]} />
       )}
       {completed && (
         <div className="mt-6 flex items-center justify-center flex-wrap">
-          <div>
-            <textarea
-              defaultValue={resultString + '\nhttps://donmikuji.hansode.club/'}
-              style={{
-                width: '600px',
-                maxWidth: '90vw',
-              }}
-              className="text-black text-base"
-              onFocus={(e) => e.target.select()}
-            ></textarea>
-          </div>
-          <div>
-            <a
-              href="https://anypost.dev/share"
-              onClick={(e) => {
-                window.open(
-                  'https://anypost.dev/share?s=' +
-                    encodeURIComponent('https://donmikuji.hansode.club/') +
-                    '&t=' +
-                    encodeURIComponent(resultString + '\n'),
-                  '',
-                  'width=500,height=750'
-                )
-                e.preventDefault()
-                return false
-              }}
-              style={{ color: 'white', textDecorationLine: 'none' }}
-            >
-              <div
-                style={{
-                  display: 'inline-block',
-                  background: '#000080',
-                  padding: '4px',
-                  margin: '4px 6px',
-                  borderRadius: '5px',
-                  textAlign: 'center',
-                  width: '80px',
-                  lineHeight: '7px',
-                  fontFamily: 'Avenir,Helvetica,Arial,sans-serif',
-                }}
-              >
-                <img
-                  src="https://anypost.dev/external-assets/share.svg"
-                  width="14"
-                  alt="share"
-                />
-                Share
-                <div style={{ fontSize: '0.5em' }}>via anypost.dev</div>
-              </div>
-            </a>
-          </div>
+          <AnyShare
+            text={`${resultString}\nhttps://donmikuji.hansode.club/`}
+            url={`https://anypost.dev/share?s=${encodeURIComponent(
+              "https://donmikuji.hansode.club/",
+            )}&t=${encodeURIComponent(`${resultString}\n`)}`}
+          />
           <button className="absolute top-10 right-10" onClick={onClose}>
-            <img src={getMediaUrl('/closing-button.png')} alt="閉じる" />
+            <img src={getMediaUrl("/closing-button.png")} alt="閉じる" />
           </button>
           <TailwindIndicator />
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ResultScene
+export const ResultScene: React.FC<ResultSceneProps> = ({ onClose }) => {
+  const { lastResult, resultString } = useGachaStore();
+  const [completed, setCompleted] = React.useState(lastResult.length === 1);
+  const [selected, setSelected] = React.useState(0);
+
+  return (
+    <ResultSceneComponent
+      characters={lastResult}
+      resultString={resultString}
+      completed={completed}
+      setCompleted={setCompleted}
+      selected={selected}
+      setSelected={setSelected}
+      onClose={onClose}
+    />
+  );
+};
+
+export default ResultScene;
