@@ -21,7 +21,7 @@ export const GachaView: React.FC<GachaViewProps> = ({ onEnded }) => {
 };
 
 export default function App() {
-  const _cache = useCache();
+  useCache();
   return (
     <main>
       <div className="mx-auto">

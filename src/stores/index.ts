@@ -1,15 +1,13 @@
-import create from 'zustand'
+import create from "zustand";
 
-import { Character } from './pu'
-
-type Scene = 'entrance' | 'main' | 'gacha' | 'result' | 'history'
+type Scene = "entrance" | "main" | "gacha" | "result" | "history";
 
 interface DonmikujiState {
-  scene: Scene
-  setScene: (scene: Scene) => void
+  scene: Scene;
+  setScene: (scene: Scene) => void;
 }
 
 export const useStore = create<DonmikujiState>((set) => ({
-  scene: 'entrance',
+  scene: "entrance",
   setScene: (scene: Scene) => set({ scene }),
-}))
+}));

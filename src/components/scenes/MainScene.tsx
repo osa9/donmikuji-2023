@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 
-import { getMediaUrl } from '../../lib/utils'
-import { GachaButton } from '../GachaButton'
+import { getMediaUrl } from "../../lib/utils";
+import { GachaButton } from "../GachaButton";
 
 export interface MainSceneProps {
-  onStartGacha: (picks: number) => void
-  onHistory: () => void
+  onStartGacha: (picks: number) => void;
+  onHistory: () => void;
 }
 
-export const OpeningScene: React.FC<MainSceneProps> = ({
+export const MainScene: React.FC<MainSceneProps> = ({
   onStartGacha,
   onHistory,
 }) => {
@@ -16,7 +16,7 @@ export const OpeningScene: React.FC<MainSceneProps> = ({
     <div
       className="w-full h-screen flex items-center justify-center relative"
       style={{
-        backgroundImage: `url('${getMediaUrl('/background.png')}')`,
+        backgroundImage: `url('${getMediaUrl("/background.png")}')`,
       }}
     >
       <div className="absolute top-10 flex w-full align-middle justify-center items-center px-10 flex-wrap">
@@ -24,7 +24,7 @@ export const OpeningScene: React.FC<MainSceneProps> = ({
         <div className="flex-grow" />
         <div className="text-white font-extrabold">
           <div
-            style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
+            style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
             className="rounded-full px-5 py-1 text-xl"
           >
             🍘&nbsp;&nbsp;&nbsp;∞
@@ -33,16 +33,16 @@ export const OpeningScene: React.FC<MainSceneProps> = ({
       </div>
       <img
         className="px-4"
-        src={getMediaUrl('/gacha-pu.png')}
+        src={getMediaUrl("/gacha-pu.png")}
         alt=""
-        style={{ maxHeight: '500px' }}
+        style={{ maxHeight: "500px" }}
       />
       <div className="absolute flex w-full bottom-10 align-middle justify-center items-center px-10 flex-wrap">
         <button
           style={{
-            backgroundColor: '#e1ded5',
-            width: '150px',
-            color: '#3b4255',
+            backgroundColor: "#e1ded5",
+            width: "150px",
+            color: "#3b4255",
           }}
           className="rounded-full px-8 py-2 font-extrabold"
           onClick={() => onHistory()}
@@ -53,20 +53,20 @@ export const OpeningScene: React.FC<MainSceneProps> = ({
         <div className="flex">
           <GachaButton
             onClick={(picks) => {
-              onStartGacha(picks)
+              onStartGacha(picks);
             }}
             picks={1}
           />
           <GachaButton
             onClick={(picks) => {
-              onStartGacha(picks)
+              onStartGacha(picks);
             }}
             picks={12}
           />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OpeningScene
+export default MainScene;

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getMediaUrl } from "../../lib/utils";
-import { HistoryItem, useGachaHistory, useGachaStore } from "../../stores/pu";
+import { HistoryItem, useGachaHistory } from "../../stores/pu";
 
 export interface OpeningSceneProps {
   onClose: () => void;
@@ -54,7 +54,11 @@ export const HistoryScene: React.FC<OpeningSceneProps> = ({ onClose }) => {
             <History item={item} key={index} />
           ))}
         </div>
-        <button className="absolute top-10 right-10" onClick={onClose}>
+        <button
+          type="button"
+          className="absolute top-10 right-10"
+          onClick={onClose}
+        >
           <img src={getMediaUrl("/closing-button.png")} alt="閉じる" />
         </button>
       </div>
